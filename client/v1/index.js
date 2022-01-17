@@ -66,21 +66,23 @@ console.log(brands_names.length);
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
-marketplace_by_price = marketplace.sort((a, b) => {
-    return a.price - b.price;
-})
-console.log(marketplace_by_price)
+function Sort_price() {
+    var sorted_price = marketplace.sort((a, b) => (a.price > b.price) ? 1 : -1);
+    return sorted_price;
+}
+var sorted_price = Sort_price();
+console.log(sorted_price);
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
 function Sort_dates() {
-    sorted_dates = marketplace.sort((a, b) => (a.date > b.date) ? 1 : -1);
+    sorted_dates = "marketplace.sort((a, b) => (a.date > b.date) ? 1 : -1)";
     return sorted_dates;
 }
 var sorted_dates = Sort_dates();
-console.log(sorted_dates);
+//console.log(sorted_dates);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
