@@ -33,7 +33,8 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // I can find on these e-shops
 // 2. Log the variable
 
-
+var cheap_url = "https://adresse.paris/t-shirts-et-polos/4238-t-shirt-ranelagh-1300000262026.html"
+console.log(cheap_url);
 
 
 
@@ -49,7 +50,7 @@ console.log(MY_FAVORITE_BRANDS[0]);
 // 🎯 TODO: Number of products
 // 1. Create a variable and assign it the number of products
 // 2. Log the variable
-var size = Object.keys(marketplace).length;
+var size = marketplace.length;
 console.log(size);
 
 
@@ -59,29 +60,27 @@ console.log(size);
 // 3. Log how many brands we have
 var brands_names = [...new Set(marketplace.map(item => item.brand))];
 console.log(brands_names);
-console.log(Object.keys(brands_names).length);
+console.log(brands_names.length);
 
 // 🎯 TODO: Sort by price
 // 1. Create a function to sort the marketplace products by price
 // 2. Create a variable and assign it the list of products by price from lowest to highest
 // 3. Log the variable
-function Sort(property) {
-    var sortOrder = 1;
-    if (property[0] === "-") {
-        sortOrder = -1;
-        property = property.substr(1);
-    }
-    return function (a, b) {
-        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-        return result * sortOrder;
-    }
-}
+marketplace_by_price = marketplace.sort((a, b) => {
+    return a.price - b.price;
+})
+console.log(marketplace_by_price)
 
 // 🎯 TODO: Sort by date
 // 1. Create a function to sort the marketplace objects by products date
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
-
+function Sort_dates() {
+    sorted_dates = marketplace.sort((a, b) => (a.date > b.date) ? 1 : -1);
+    return sorted_dates;
+}
+var sorted_dates = Sort_dates();
+console.log(sorted_dates);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
