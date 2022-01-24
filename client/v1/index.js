@@ -171,18 +171,9 @@ console.log(brands)
 // 🎯 TODO: Compute the p90 price value
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
-var all_ninety = []
-var ninety = Math.round(brands[1083].length * 0.9)
-all_ninety.push(brands[1083][ninety].price)
-var ninety = Math.round(brands['adresse'].length * 0.9)
-all_ninety.push(brands['adresse'][ninety].price)
-var ninety = Math.round(brands['loom'].length * 0.9)
-all_ninety.push(brands['loom'][ninety].price)
-var ninety = Math.round(brands['aatise'].length * 0.9)
-all_ninety.push(brands['aatise'][ninety].price)
-var ninety = Math.round(brands['dedicated'].length * 0.9)
-all_ninety.push(brands['dedicated'][ninety].price)
-console.log(all_ninety)
+var all_p90 = []
+Object.keys(brands).forEach(key => all_p90.push(brands[key][Math.round(brands[key].length * 0.9)].price));
+console.log(all_p90)
 
 
 
@@ -258,21 +249,48 @@ const COTELE_PARIS = [
 // 🎯 TODO: New released products
 // // 1. Log if we have new products only (true or false)
 // // A new product is a product `released` less than 2 weeks.
+let res = true;
 
+for (let index = 0; index < COTELE_PARIS.length; index++) {
+    if ((new Date().setHours(0, 0, 0, 0) - new Date(COTELE_PARIS[index].released.split('-')).getTime()) > 1209600000) {
+        // 1209600000 is the duration of 14 days in ms
+        res = false;
+        break;
+    }
+}
+
+COTELE_PARIS.forEach(element => {
+
+});
+console.log(res);
 
 // 🎯 TODO: Reasonable price
 // // 1. Log if coteleparis is a reasonable price shop (true or false)
 // // A reasonable price if all the products are less than 100€
+res = true;
 
+for (let index = 0; index < COTELE_PARIS.length; index++) {
+    if (COTELE_PARIS[index].price < 100) {
+        res = false;
+        break;
+    }
+}
+console.log(res);
 
 // 🎯 TODO: Find a specific product
 // 1. Find the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the product
-
+let specific = COTELE_PARIS.find(a => a.uuid === "b56c6d88-749a-5b4c-b571-e5b5c6483131");
+console.log(specific)
 
 // 🎯 TODO: Delete a specific product
 // 1. Delete the product with the uuid `b56c6d88-749a-5b4c-b571-e5b5c6483131`
 // 2. Log the new list of product
+const index = COTELE_PARIS.indexOf(specific);
+if (index > -1) {
+    COTELE_PARIS.splice(index, 1);
+}
+console.log(COTELE_PARIS);
 
 // 🎯 TODO: Save the favorite product
 let blueJacket = {
@@ -289,7 +307,9 @@ jacket.favorite = true;
 
 // 1. Log `blueJacket` and `jacket` variables
 // 2. What do you notice?
-
+console.log(blueJacket)
+console.log(jacket)
+// The two objects were copied via reference so modifying one affects the other
 blueJacket = {
   'link': 'https://coteleparis.com/collections/tous-les-produits-cotele/products/la-veste-bleu-roi',
   'price': 110,
@@ -297,7 +317,11 @@ blueJacket = {
 };
 
 // 3. Update `jacket` property with `favorite` to true WITHOUT changing blueJacket properties
+jacket = { ...blueJacket }
+jacket.favorite = true;
 
+console.log(blueJacket)
+console.log(jacket)
 
 
 
@@ -311,3 +335,5 @@ blueJacket = {
 // 🎯 TODO: Save in localStorage
 // 1. Save MY_FAVORITE_BRANDS in the localStorage
 // 2. log the localStorage
+localStorage.setItem("Favorites", JSON.stringify(MY_FAVORITE_BRANDS))
+console.log(localStorage);
