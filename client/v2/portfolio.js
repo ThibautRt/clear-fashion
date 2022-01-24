@@ -27,7 +27,7 @@ const setCurrentProducts = ({result, meta}) => {
  * @param  {Number}  [size=12] - size of the page
  * @return {Object}
  */
-const fetchProducts = async (page = 1, size = 12) => {
+const fetchProducts = async (page = 1 , size = 12) => {
   try {
     const response = await fetch(
       `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
@@ -115,6 +115,12 @@ selectShow.addEventListener('change', event => {
     .then(setCurrentProducts)
     .then(() => render(currentProducts, currentPagination));
 });
+
+selectPage.addEventListener('change', event => {
+    fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(() => render(currentProducts, currentPagination))
+})
 
 document.addEventListener('DOMContentLoaded', () =>
   fetchProducts()
