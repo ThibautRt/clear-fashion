@@ -78,21 +78,27 @@ console.log(sorted_price);
 // 2. Create a variable and assign it the list of products by date from recent to old
 // 3. Log the variable
 function Sort_dates() {
-    sorted_dates = "marketplace.sort((a, b) => (a.date > b.date) ? 1 : -1)";
+    sorted_dates = marketplace.sort((a, b) => (a.date > b.date) ? 1 : -1);
     return sorted_dates;
 }
 var sorted_dates = Sort_dates();
-//console.log(sorted_dates);
+console.log(sorted_dates);
 
 // 🎯 TODO: Filter a specific price range
 // 1. Filter the list of products between 50€ and 100€
 // 2. Log the list
-
+var price_filtered = marketplace.filter(a => a.price < 100 & a.price >= 50);
+console.log(price_filtered)
 
 // 🎯 TODO: Average Basket
 // 1. Determine the average basket of the marketplace
 // 2. Log the average
-
+var total = 0;
+for (var i = 0; i < marketplace.length; i++) {
+    total += marketplace[i].price;
+}
+var avg = total / marketplace.length;
+console.log(avg)
 
 
 
@@ -119,17 +125,38 @@ var sorted_dates = Sort_dates();
 //
 // 2. Log the variable
 // 3. Log the number of products by brands
-
+const brands = {
+    'adresse': [],
+    'loom': [],
+    'aatise': [],
+    '1083': [],
+    'dedicated': [],
+ };
+for (var i = 0; i < marketplace.length; i++) {
+    brands[marketplace[i].brand].push(marketplace[i])
+}
+console.log(brands)
+console.log(brands.adresse.length, brands.loom.length, brands.aatise.length, brands.dedicated.length, brands[1083].length)
 
 // 🎯 TODO: Sort by price for each brand
 // 1. For each brand, sort the products by price, from highest to lowest
 // 2. Log the sort
-
+brands[1083].sort((a, b) => (a.price > b.price) ? 1 : -1);
+brands['adresse'].sort((a, b) => (a.price > b.price) ? 1 : -1);
+brands['loom'].sort((a, b) => (a.price > b.price) ? 1 : -1);
+brands['aatise'].sort((a, b) => (a.price > b.price) ? 1 : -1);
+brands['dedicated'].sort((a, b) => (a.price > b.price) ? 1 : -1);
+console.log(brands)
 
 // 🎯 TODO: Sort by date for each brand
 // 1. For each brand, sort the products by date, from old to recent
 // 2. Log the sort
-
+brands[1083].sort((a, b) => (a.date > b.date) ? 1 : -1);
+brands['adresse'].sort((a, b) => (a.date > b.date) ? 1 : -1);
+brands['loom'].sort((a, b) => (a.date > b.date) ? 1 : -1);
+brands['aatise'].sort((a, b) => (a.date > b.date) ? 1 : -1);
+brands['dedicated'].sort((a, b) => (a.date > b.date) ? 1 : -1);
+console.log(brands)
 
 
 
@@ -144,7 +171,18 @@ var sorted_dates = Sort_dates();
 // 🎯 TODO: Compute the p90 price value
 // 1. Compute the p90 price value of each brand
 // The p90 value (90th percentile) is the lower value expected to be exceeded in 90% of the products
-
+var all_ninety = []
+var ninety = Math.round(brands[1083].length * 0.9)
+all_ninety.push(brands[1083][ninety].price)
+var ninety = Math.round(brands['adresse'].length * 0.9)
+all_ninety.push(brands['adresse'][ninety].price)
+var ninety = Math.round(brands['loom'].length * 0.9)
+all_ninety.push(brands['loom'][ninety].price)
+var ninety = Math.round(brands['aatise'].length * 0.9)
+all_ninety.push(brands['aatise'][ninety].price)
+var ninety = Math.round(brands['dedicated'].length * 0.9)
+all_ninety.push(brands['dedicated'][ninety].price)
+console.log(all_ninety)
 
 
 
