@@ -22,9 +22,9 @@ const selectSortOption = document.querySelector('#sort-select');
  * @param {Array} result - products to display
  * @param {Object} meta - pagination meta info
  */
-const setCurrentProducts = ({result, meta}) => {
-  currentProducts = result;
-  currentPagination = meta;
+const setCurrentProducts = ({ result, meta }) => {
+    currentProducts = result;
+    currentPagination = meta;
 };
 
 /**
@@ -34,22 +34,22 @@ const setCurrentProducts = ({result, meta}) => {
  * @return {Object}
  */
 const fetchProducts = async (page = 1, size = 12) => {
-  try {
-    const response = await fetch(
-      `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
-    );
-    const body = await response.json();
+    try {
+        const response = await fetch(
+            `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
+        );
+        const body = await response.json();
 
-    if (body.success !== true) {
-      console.error(body);
-      return {currentProducts, currentPagination};
+        if (body.success !== true) {
+            console.error(body);
+            return { currentProducts, currentPagination };
+        }
+
+        return body.data;
+    } catch (error) {
+        console.error(error);
+        return { currentProducts, currentPagination };
     }
-
-    return body.data;
-  } catch (error) {
-    console.error(error);
-    return {currentProducts, currentPagination};
-  }
 };
 
 /**
@@ -57,24 +57,24 @@ const fetchProducts = async (page = 1, size = 12) => {
  * @param  {Array} products
  */
 const renderProducts = products => {
-  const fragment = document.createDocumentFragment();
-  const div = document.createElement('div');
-  const template = products
-    .map(product => {
-      return `
+    const fragment = document.createDocumentFragment();
+    const div = document.createElement('div');
+    const template = products
+        .map(product => {
+            return `
       <div class="product" id=${product.uuid}>
         <span>${product.brand}</span>
         <a href="${product.link}">${product.name}</a>
         <span>${product.price}</span>
       </div>
     `;
-    })
-    .join('');
+        })
+        .join('');
 
-  div.innerHTML = template;
-  fragment.appendChild(div);
-  sectionProducts.innerHTML = '<h2>Products</h2>';
-  sectionProducts.appendChild(fragment);
+    div.innerHTML = template;
+    fragment.appendChild(div);
+    sectionProducts.innerHTML = '<h2>Products</h2>';
+    sectionProducts.appendChild(fragment);
 };
 
 /**
@@ -82,14 +82,14 @@ const renderProducts = products => {
  * @param  {Object} pagination
  */
 const renderPagination = pagination => {
-  const {currentPage, pageCount} = pagination;
-  const options = Array.from(
-    {'length': pageCount},
-    (value, index) => `<option value="${index + 1}">${index + 1}</option>`
-  ).join('');
+    const { currentPage, pageCount } = pagination;
+    const options = Array.from(
+        { 'length': pageCount },
+        (value, index) => `<option value="${index + 1}">${index + 1}</option>`
+    ).join('');
 
-  selectPage.innerHTML = options;
-  selectPage.selectedIndex = currentPage - 1;
+    selectPage.innerHTML = options;
+    selectPage.selectedIndex = currentPage - 1;
 };
 
 /**
@@ -97,69 +97,69 @@ const renderPagination = pagination => {
  * @param  {Object} pagination
  */
 const renderIndicators = pagination => {
-  const {count} = pagination;
+    const { count } = pagination;
 
-  spanNbProducts.innerHTML = count;
-  spanNbDisplayedProducts.innerHTML = currentProductsToDisplay.length;
+    spanNbProducts.innerHTML = count;
+    spanNbDisplayedProducts.innerHTML = currentProductsToDisplay.length;
 };
 
 const filterProducts = products => {
-  currentProductsToDisplay = [...products];
-  currentProductsToDisplay = filterByBrands(products);
+    currentProductsToDisplay = [...products];
+    currentProductsToDisplay = filterByBrands(products);
 
-  if (buttonRecently.checked){
-    currentProductsToDisplay = filterByRecent(currentProductsToDisplay);
-  }
+    if (buttonRecently.checked) {
+        currentProductsToDisplay = filterByRecent(currentProductsToDisplay);
+    }
 
-  if (buttonPrice.checked){
-    currentProductsToDisplay = filterByPrice(currentProductsToDisplay);
-  }
+    if (buttonPrice.checked) {
+        currentProductsToDisplay = filterByPrice(currentProductsToDisplay);
+    }
 }
 
-const filterByBrands = products => products.filter(product => selectBrand.value!="all"? product.brand == selectBrand.value : true);
+const filterByBrands = products => products.filter(product => selectBrand.value != "all" ? product.brand == selectBrand.value : true);
 
 const filterByRecent = products => products.filter(product => (new Date().setHours(0, 0, 0, 0) - new Date(product.released.split('-')).getTime()) > 1209600000);
 
 const filterByPrice = products => products.filter(product => product.price < 50);
 
 const setFilterOptions = () => {
-  selectBrand.length = 0;
-  selectBrand[0] = new Option("all");
-  [...new Set(currentProducts.map(product => product.brand))].forEach(brand => selectBrand[selectBrand.length] = new Option(brand));
-  buttonPrice.checked = false;
-  buttonRecently.checked = false;
+    selectBrand.length = 0;
+    selectBrand[0] = new Option("all");
+    [...new Set(currentProducts.map(product => product.brand))].forEach(brand => selectBrand[selectBrand.length] = new Option(brand));
+    buttonPrice.checked = false;
+    buttonRecently.checked = false;
 }
 
 function sortByDateAsc(a, b) {
-  return new Date(a.released.split('-')) - new Date(b.released.split('-'));
+    return new Date(a.released.split('-')) - new Date(b.released.split('-'));
 }
 
 const sortProducts = products => {
-  switch (selectSortOption.value) {
-    case "price-asc":
-      products.sort((a, b) => a.price - b.price);
-      break;
-    
-    case "price-desc":
-      products.sort((a, b) => b.price - a.price);
-      break;
+    switch (selectSortOption.value) {
+        case "price-asc":
+            products.sort((a, b) => a.price - b.price);
+            break;
 
-    case "date-asc":
-      products.sort((a, b) => new Date(a.released.split('-')) - new Date(b.released.split('-')));
-      break;
+        case "price-desc":
+            products.sort((a, b) => b.price - a.price);
+            break;
 
-    case "date-desc":
-      products.sort((a, b) => new Date(b.released.split('-')) - new Date(a.released.split('-')));
-      break;
-  }
+        case "date-asc":
+            products.sort((a, b) => new Date(a.released.split('-')) - new Date(b.released.split('-')));
+            break;
+
+        case "date-desc":
+            products.sort((a, b) => new Date(b.released.split('-')) - new Date(a.released.split('-')));
+            break;
+    }
 }
 
 const render = (products, pagination) => {
-  filterProducts(products);
-  sortProducts(currentProductsToDisplay)
-  renderProducts(currentProductsToDisplay);
-  renderPagination(pagination);
-  renderIndicators(pagination);
+    filterProducts(products);
+    sortProducts(currentProductsToDisplay)
+    renderProducts(currentProductsToDisplay);
+    renderPagination(pagination);
+    renderIndicators(pagination);
 };
 
 /**
@@ -171,38 +171,38 @@ const render = (products, pagination) => {
  * @type {[type]}
  */
 selectShow.addEventListener('change', event => {
-  fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
-    .then(setCurrentProducts)
-    .then(setFilterOptions())
-    .then(() => render(currentProducts, currentPagination));
+    fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
+        .then(setCurrentProducts)
+        .then(setFilterOptions())
+        .then(() => render(currentProducts, currentPagination));
 });
 
 selectPage.addEventListener('change', event => {
-  fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
-    .then(setCurrentProducts)
-    .then(setFilterOptions())
-    .then(() => render(currentProducts, currentPagination));
+    fetchProducts(parseInt(event.target.value), currentPagination.pageSize)
+        .then(setCurrentProducts)
+        .then(setFilterOptions())
+        .then(() => render(currentProducts, currentPagination));
 });
 
 selectBrand.addEventListener('change', () => {
-  render(currentProducts, currentPagination)
+    render(currentProducts, currentPagination)
 });
 
 buttonRecently.addEventListener('change', () => {
-  render(currentProducts, currentPagination)
+    render(currentProducts, currentPagination)
 });
 
 buttonPrice.addEventListener('change', () => {
-  render(currentProducts, currentPagination)
+    render(currentProducts, currentPagination)
 });
 
 selectSortOption.addEventListener('change', () => {
-  render(currentProducts, currentPagination)
+    render(currentProducts, currentPagination)
 });
 
 document.addEventListener('DOMContentLoaded', () =>
-  fetchProducts()
-    .then(setCurrentProducts)
-    .then(setFilterOptions)
-    .then(() => render(currentProducts, currentPagination))
+    fetchProducts()
+        .then(setCurrentProducts)
+        .then(setFilterOptions)
+        .then(() => render(currentProducts, currentPagination))
 );
