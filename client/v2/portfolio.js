@@ -7,16 +7,16 @@ let currentProductsToDisplay = [];
 let currentPagination = {};
 let favorites = []
 
-// inititiqte selectors
+// inititiate selectors
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
 const spanNbProducts = document.querySelector('#nbProducts');
 const spanNbDisplayedProducts = document.querySelector('#nbDisplayedProducts');
 const spanNbNewDisplayedProducts = document.querySelector('#nbNewDisplayedProducts');
-const spanP50 = document.querySelector('#p50');
-const spanP90 = document.querySelector('#p90');
-const spanP95 = document.querySelector('#p95');
+const P50 = document.querySelector('#p50');
+const P90 = document.querySelector('#p90');
+const P95 = document.querySelector('#p95');
 const spanLastDate = document.querySelector('#lastDate');
 const selectBrand = document.querySelector('#brand-select');
 const buttonPrice = document.querySelector('#price-button');
@@ -117,15 +117,15 @@ const renderIndicators = pagination => {
     if (currentProductsToDisplay.length >= 1) {
         let temp = [...currentProductsToDisplay];
         temp.sort((a, b) => a.price - b.price);
-        spanP50.innerHTML = temp[Math.floor(temp.length * (1 - 0.5))].price;
-        spanP90.innerHTML = temp[Math.floor(temp.length * (1 - 0.9))].price;
-        spanP95.innerHTML = temp[Math.floor(temp.length * (1 - 0.95))].price;
+        P50.innerHTML = temp[Math.floor(temp.length * (0.5))].price;
+        P90.innerHTML = temp[Math.floor(temp.length * (0.1))].price;
+        P95.innerHTML = temp[Math.floor(temp.length * (0.05))].price;
         temp.sort((a, b) => new Date(a.released.split('-')) - new Date(b.released.split('-')));
         spanLastDate.innerHTML = temp[temp.length - 1].released;
     } else {
-        spanP50.innerHTML = "undefined";
-        spanP90.innerHTML = "undefined";
-        spanP95.innerHTML = "undefined";
+        P50.innerHTML = "undefined";
+        P90.innerHTML = "undefined";
+        P95.innerHTML = "undefined";
         spanLastDate.innerHTML = "undefined";
     }
 };
