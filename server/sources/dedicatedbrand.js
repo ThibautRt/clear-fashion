@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const cheerio = require('cheerio');
+const fs = require('fs');
 
 /**
  * Parse webpage e-shop
@@ -8,23 +9,27 @@ const cheerio = require('cheerio');
  */
 const parse = data => {
   const $ = cheerio.load(data);
+  var saved_list =[]
 
-  return $('.productList-container .productList')
+  return $('.product_list grid row .ajax block product')
     .map((i, element) => {
       const name = $(element)
         .find('.productList-title')
         .text()
         .trim()
         .replace(/\s/g, ' ');
+      
       const price = parseInt(
         $(element)
           .find('.productList-price')
           .text()
       );
-
+      saved_list.push({ name, price })
       return {name, price};
     })
-    .get();
+        .get();
+    fs.writeFile('C:\Users\thiba\Desktop\clear-fashion\server\saved.txt', saved_list, { flag: 'a+' }, err => { })
+
 };
 
 /**
@@ -39,7 +44,7 @@ module.exports.scrape = async url => {
     if (response.ok) {
       const body = await response.text();
 
-      return parse(body);
+        return parse(body);
     }
 
     console.error(response);

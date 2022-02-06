@@ -1,7 +1,8 @@
 /* eslint-disable no-console, no-process-exit */
 const dedicatedbrand = require('./sources/dedicatedbrand');
+const adressebrand = require('./sources/adressebrand');
 
-async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
+async function sandbox(eshop = 'https://adresse.paris/602-nouveautes') {
   try {
     console.log(`🕵️‍♀️  browsing ${eshop} source`);
 
@@ -18,7 +19,7 @@ async function sandbox (eshop = 'https://www.dedicatedbrand.com/en/men/news') {
 
 const [,, eshop] = process.argv;
 
-const list_dedicated = [
+/* const list_dedicated = [
     'https://www.dedicatedbrand.com/en/men/news',
     'https://www.dedicatedbrand.com/en/men/t-shirts',
     'https://www.dedicatedbrand.com/en/men/basics',
@@ -53,12 +54,12 @@ const list_dedicated = [
     'https://www.dedicatedbrand.com/en/kids/bottoms',
     'https://www.dedicatedbrand.com/en/kids/swimwear',
     'https://www.dedicatedbrand.com/en/kids/sale'
-];
+]; */
 
 
 
-//sandbox(eshop);
+sandbox(eshop);
 //console.log(list_dedicated)
-for (var i = 0; i < list_dedicated.length; i++) {
-    sandbox(list_dedicated[i])
-}
+//for (var i = 0; i < list_dedicated.length; i++) {
+  //  sandbox(list_dedicated[i])
+//}
