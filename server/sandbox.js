@@ -1,7 +1,10 @@
 /* eslint-disable no-console, no-process-exit */
+const fs = require('fs')
+
 const dedicatedbrand = require('./sources/dedicatedbrand');
 const adressebrand = require('./sources/adressebrand');
 const montlimartbrand = require('./sources/montlimartbrand');
+
 
 async function sandbox_dedicated(eshop = 'https://www.dedicatedbrand.com/en/men/news') {
   try {
@@ -9,12 +12,16 @@ async function sandbox_dedicated(eshop = 'https://www.dedicatedbrand.com/en/men/
 
     const products = await dedicatedbrand.scrape(eshop);
 
-    console.log(products);
+      console.log(products);
+      fs.writeFile(`test.json`, JSON.stringify(products), err => {
+          if (err) {
+              console.error(err);
+              return
+          }
+      });
     console.log('done');
-    process.exit(0);
   } catch (e) {
     console.error(e);
-    process.exit(1);
   }
 }
 
@@ -25,11 +32,15 @@ async function sandbox_adresse(eshop = 'https://adresse.paris/602-nouveautes') {
         const products = await adressebrand.scrape(eshop);
 
         console.log(products);
+        fs.writeFile(`test.json`, JSON.stringify(products), err => {
+            if (err) {
+                console.error(err);
+                return
+            }
+        });
         console.log('done');
-        process.exit(0);
     } catch (e) {
         console.error(e);
-        process.exit(1);
     }
 }
 
@@ -40,11 +51,15 @@ async function sandbox_montlimart(eshop = 'https://www.montlimart.com/chaussures
         const products = await montlimartbrand.scrape(eshop);
 
         console.log(products);
+        fs.writeFile(`test.json`, JSON.stringify(products), err => {
+            if (err) {
+                console.error(err);
+                return
+            }
+        });
         console.log('done');
-        process.exit(0);
     } catch (e) {
         console.error(e);
-        process.exit(1);
     }
 }
 

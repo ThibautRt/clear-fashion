@@ -903,6 +903,11 @@
   dependencies:
     "whatwg-url" "^5.0.0"
 
+"node.js@^0.0.1-security":
+  "integrity" "sha512-8tWQiyg/3ggdLTrtfgj/NxmZpC20eB1U5VNkqt2dbelpcr3NrfjpEE3DgifpBOCJ4Xu9Obvu8iju63ViQW3Hvg=="
+  "resolved" "https://registry.npmjs.org/node.js/-/node.js-0.0.1-security.tgz"
+  "version" "0.0.1-security"
+
 "nodemon@^2.0.15":
   "integrity" "sha512-gdHMNx47Gw7b3kWxJV64NI+Q5nfl0y5DgDbiVtShiwa7Z0IZ07Ll4RLFo6AjrhzMtoEZn5PDE3/c2AbVsiCkpA=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-2.0.15.tgz"
