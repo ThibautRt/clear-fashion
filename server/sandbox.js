@@ -13,7 +13,7 @@ async function sandbox_dedicated(eshop = 'https://www.dedicatedbrand.com/en/men/
     const products = await dedicatedbrand.scrape(eshop);
 
       console.log(products);
-      fs.writeFile(`test.json`, JSON.stringify(products), err => {
+      fs.writeFile(`dedicated_scraped.json`, JSON.stringify(products), err => {
           if (err) {
               console.error(err);
               return
@@ -32,7 +32,7 @@ async function sandbox_adresse(eshop = 'https://adresse.paris/602-nouveautes') {
         const products = await adressebrand.scrape(eshop);
 
         console.log(products);
-        fs.writeFile(`test.json`, JSON.stringify(products), err => {
+        fs.writeFile(`adresse_scraped.json`, JSON.stringify(products), err => {
             if (err) {
                 console.error(err);
                 return
@@ -51,7 +51,7 @@ async function sandbox_montlimart(eshop = 'https://www.montlimart.com/chaussures
         const products = await montlimartbrand.scrape(eshop);
 
         console.log(products);
-        fs.writeFile(`test.json`, JSON.stringify(products), err => {
+        fs.writeFile(`montlimart_scraped.json`, JSON.stringify(products), err => {
             if (err) {
                 console.error(err);
                 return
@@ -65,4 +65,6 @@ async function sandbox_montlimart(eshop = 'https://www.montlimart.com/chaussures
 
 const [,, eshop] = process.argv;
 
+sandbox_dedicated(eshop);
+sandbox_adresse(eshop);
 sandbox_montlimart(eshop);
