@@ -7,7 +7,11 @@ let currentProductsToDisplay = [];
 let currentPagination = {};
 let favorites = []
 
+<<<<<<< HEAD
 // inititiate selectors
+=======
+// instantiate the selectors
+>>>>>>> 3edf52c32a03d0dffe9e84eec0427aeceb666b92
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
@@ -191,8 +195,8 @@ const render = (products, pagination) => {
 
 /**
  * Select the number of products to display
- * @type {[type]}
  */
+<<<<<<< HEAD
 selectShow.addEventListener('change', event => {
     fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
         .then(setCurrentProducts)
@@ -229,3 +233,18 @@ document.addEventListener('DOMContentLoaded', () =>
         .then(setFilterOptions)
         .then(() => render(currentProducts, currentPagination))
 );
+=======
+selectShow.addEventListener('change', async (event) => {
+  const products = await fetchProducts(currentPagination.currentPage, parseInt(event.target.value));
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const products = await fetchProducts();
+
+  setCurrentProducts(products);
+  render(currentProducts, currentPagination);
+});
+>>>>>>> 3edf52c32a03d0dffe9e84eec0427aeceb666b92
