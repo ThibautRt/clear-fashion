@@ -1,13 +1,13 @@
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const MONGODB_URI = "mongodb+srv://thibautrt:Choucroute@clear-fashion.1be5z.mongodb.net/clear-fashion?retryWrites=true&w=majority";
-const MONGODB_DB_NAME = 'clearfashion';
+const MONGODB_NAME = 'clearfashion';
 
 
 async function connect() {
     try {
         const client = await MongoClient.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
-        let connected_database = client.db(MONGODB_DB_NAME)
+        let connected_database = client.db(MONGODB_NAME)
         console.log('Connected to database ')
         return connected_database
     }
@@ -28,14 +28,26 @@ async function insert_products(clear_fashion) {
 }
 //insert_products([all_products])
 
+module.exports.find_by_id = async function find_by_id(id) {
+    try {
+        const db = await connect();
+        const collection = db.collection('clear_fashion');
+        const query = { '_id': ObjectId(id) };
+        const result = await collection.find(query);
+        return result.toArray();
+        
+    } catch (error) {
+        console.error('find_by_id failed : ', error);
+        return null;
+    }
+}
+
 //Find all products related to a given brand
 brand = "montlimart"
 async function find_by_brand(brand) {
     const db = await connect();
     const collection = db.collection('clear_fashion');
-    var query = {
-        brand: brand
-    };
+    var query = { brand: brand };
     collection.find(query).toArray(function (err, result) {
         if (err) throw err;
         console.log(result);
