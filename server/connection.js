@@ -19,10 +19,10 @@ async function connect() {
 
 
 const all_products = require('./all_scraped.json');
-async function insert_products(products) {
+async function insert_products(clear_fashion) {
     const db = await connect();
-    const collection = db.collection('products');
-    for (brand_products of products) {
+    const collection = db.collection('clear_fashion');
+    for (brand_products of clear_fashion) {
         const result = collection.insertMany(brand_products);
     }
 }
@@ -32,7 +32,7 @@ async function insert_products(products) {
 brand = "montlimart"
 async function find_by_brand(brand) {
     const db = await connect();
-    const collection = db.collection('products');
+    const collection = db.collection('clear_fashion');
     var query = {
         brand: brand
     };
@@ -44,10 +44,10 @@ async function find_by_brand(brand) {
 //find_by_brand(brand)
 
 //Find all products less than a price
-price = 10
+price = 100
 async function find_by_price(price) {
     const db = await connect();
-    const collection = db.collection('products');
+    const collection = db.collection('clear_fashion');
     var query = { price: { $lt: price } }
     collection.find(query).toArray(function (err, result) {
         if (err) throw err;
@@ -59,11 +59,11 @@ async function find_by_price(price) {
 //Find all products sorted by price (desc)
 async function sort_by_price() {
     const db = await connect();
-    const collection = db.collection('products');
+    const collection = db.collection('clear_fashion');
     var query = [{ $sort: { "price": -1 } }]
     collection.aggregate(query).toArray(function (err, result) {
         if (err) throw err;
         console.log(result);
     });
 }
-// sort_by_price()
+//sort_by_price()
