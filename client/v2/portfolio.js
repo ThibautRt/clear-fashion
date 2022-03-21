@@ -47,6 +47,7 @@ const fetchProducts = async (page = 1, size = 12) => {
     try {
         const response = await fetch(
             `https://serverapi-three.vercel.app?page=${page}&size=${size}`
+            // 'https://client-five-liart.vercel.app'
         );
         const body = await response.json();
 

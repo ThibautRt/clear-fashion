@@ -1,6 +1,7 @@
 const { MongoClient, ObjectId } = require('mongodb');
+require('dotenv').config();
 
-const MONGODB_URI = "mongodb+srv://thibautrt:Choucroute@clear-fashion.1be5z.mongodb.net/clear-fashion?retryWrites=true&w=majority";
+const MONGODB_URI = process.env.MONGODB_URI;
 const MONGODB_NAME = 'clearfashion';
 
 
