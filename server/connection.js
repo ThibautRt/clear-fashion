@@ -41,6 +41,19 @@ module.exports.find_by_id = async function find_by_id(id) {
         return null;
     }
 }
+module.exports.find_limit = async (query, options) => {
+    try {
+        const db = await connect();
+        const collection = db.collection('clear_fashion');
+        const result = await collection.find(query).limit(options.limit).toArray();
+
+        return result;
+    } catch (error) {
+        console.error('collection.find...', error);
+        return null;
+    }
+};
+
 
 //Find all products related to a given brand
 brand = "montlimart"

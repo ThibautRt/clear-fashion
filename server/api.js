@@ -20,12 +20,36 @@ app.get('/', (request, response) => {
   response.send({'ack': true});
 });
 
+app.get('/products/search', async (request, response) => {
+    console.log("GET /products/search");
+    console.log(request.query);
+
+    const LIMIT = request.query.limit;
+    const BRAND = request.query.brand;
+    const PRICE = request.query.price;
+
+    let query = {};
+    let options = { "limit": 12 };
+    if (LIMIT != undefined) {
+        options.limit = parseInt(LIMIT)
+    }
+    if (BRAND != undefined) {
+        query.brand = BRAND;
+    }
+    if (PRICE != undefined) {
+        query.price = { "$lte": parseFloat(PRICE) }
+    }
+    const results = await db.find_limit(query, options);
+    response.json({ query, options, "total": results.length, results });
+})
+
 app.get('/products/:id', async (request, response) => {
+    console.log("GET /products/:id")
     const data = await db.find_by_id(request.params.id)
     console.log(data)
     response.send(data);
 })
 
-app.listen(PORT);
+app.listen(PORT)
 
 console.log(`📡 Running on port ${PORT}`);
