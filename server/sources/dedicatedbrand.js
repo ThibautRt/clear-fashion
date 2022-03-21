@@ -4,9 +4,11 @@ const cheerio = require('cheerio');
 /**
  * Parse webpage e-shop
  * @param  {String} data - html response
+ * @param  {String} base_url - html response's url
+ * @param  {String} brand - current brand
  * @return {Array} products
  */
-const parse = data => {
+const parse = (data, base_url, brand) => {
     const $ = cheerio.load(data);
 
     return $('.productList-container .productList')
@@ -16,36 +18,45 @@ const parse = data => {
                 .text()
                 .trim()
                 .replace(/\s/g, ' ');
-
             const price = parseInt(
                 $(element)
                     .find('.productList-price')
                     .text()
             );
-            return { name, price };
+            const url = base_url + $(element)
+                .find('.productList-link')
+                .attr('href');
+            const image = $(element)
+                .find(".productList-image")
+                .children('img')
+                .eq(0)
+                .attr('data-src');
+            return { name, price, url, image, brand };
         })
         .get();
 };
+
 /**
  * Scrape all the products for a given url page
  * @param  {[type]}  url
+ * @param  {String} brand - current brand
  * @return {Array|null}
  */
-module.exports.scrape = async url => {
-  try {
-    const response = await fetch(url);
+module.exports.scrape = async (url, brand) => {
+    try {
+        const response = await fetch(url);
 
-    if (response.ok) {
-      const body = await response.text();
+        if (response.ok) {
+            const body = await response.text();
 
-        return parse(body);
+            return parse(body, url, brand);
+        }
+
+        console.error(response);
+
+        return null;
+    } catch (error) {
+        console.error(error);
+        return null;
     }
-
-    console.error(response);
-
-    return null;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
 };

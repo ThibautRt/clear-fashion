@@ -2,37 +2,31 @@
 const fs = require('fs')
 
 const dedicatedbrand = require('./sources/dedicatedbrand');
-const adressebrand = require('./sources/adressebrand');
 const montlimartbrand = require('./sources/montlimartbrand');
+const adressebrand = require('./sources/adressebrand')
 
-
-async function sandbox_dedicated(eshop = 'https://www.dedicatedbrand.com/en/men/news') {
-  try {
-    console.log(`🕵️‍♀️  browsing ${eshop} source`);
-
-    const products = await dedicatedbrand.scrape(eshop);
-
-      console.log(products);
-      fs.writeFile(`dedicated_scraped.json`, JSON.stringify(products), err => {
-          if (err) {
-              console.error(err);
-              return
-          }
-      });
-    console.log('done');
-  } catch (e) {
-    console.error(e);
-  }
+const brands = {
+    "DEDICATED": dedicatedbrand,
+    "Montlimart": montlimartbrand,
+    "ADRESSE Paris": adressebrand
 }
 
-async function sandbox_adresse(eshop = 'https://adresse.paris/602-nouveautes') {
+const brandsList = require('./brands.json')
+
+async function sandbox(eshop, args) {
     try {
-        console.log(`🕵️‍♀️  browsing ${eshop} source`);
-
-        const products = await adressebrand.scrape(eshop);
-
-        console.log(products);
-        fs.writeFile(`adresse_scraped.json`, JSON.stringify(products), err => {
+        console.log(`🕵️‍♀️  browsing ${eshop.brand} source`);
+        let products = [];
+        if (args.page >= 2) {
+            for (let i = 0; i < page; i++) {
+                products = products.concat(await brands[eshop.brand].scrape(eshop.url + "?p=" + args.page, eshop.brand));
+            }
+        }
+        else {
+            products = await brands[eshop.brand].scrape(eshop.url, eshop.brand);
+        }
+        console.log(products[0]);
+        fs.writeFile(`${process.cwd()}/scraped/${eshop.brand.replace(" ", "_")}.json`, JSON.stringify(products), err => {
             if (err) {
                 console.error(err);
                 return
@@ -44,27 +38,32 @@ async function sandbox_adresse(eshop = 'https://adresse.paris/602-nouveautes') {
     }
 }
 
-async function sandbox_montlimart(eshop = 'https://www.montlimart.com/chaussures.html') {
-    try {
-        console.log(`🕵️‍♀️  browsing ${eshop} source`);
+const folderName = process.cwd() + "/scraped"
 
-        const products = await montlimartbrand.scrape(eshop);
-
-        console.log(products);
-        fs.writeFile(`montlimart_scraped.json`, JSON.stringify(products), err => {
-            if (err) {
-                console.error(err);
-                return
-            }
-        });
-        console.log('done');
-    } catch (e) {
-        console.error(e);
+try {
+    if (!fs.existsSync(folderName)) {
+        fs.mkdirSync(folderName)
     }
+} catch (err) {
+    console.error(err)
 }
 
-const [,, eshop] = process.argv;
+brandsList.forEach(async (b) => {
+    console.log("Brand :");
+    console.log(b);
+    let args = {
+        "page": 0
+    }
+    switch (b.brand) {
+        case "DEDICATED":
+            await sandbox(b, args);
+            break;
+        case "Montlimart":
+            await sandbox(b, args);
+            break;
+        case "ADRESSE Paris":
+            await sandbox(b, args);
+            break;
+    }
 
-sandbox_dedicated(eshop);
-sandbox_adresse(eshop);
-sandbox_montlimart(eshop);
+})

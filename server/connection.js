@@ -1,4 +1,3 @@
-// tuto : https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i
 const { MongoClient } = require('mongodb');
 
 const MONGODB_URI = "mongodb+srv://thibautrt:Choucroute@clear-fashion.1be5z.mongodb.net/clear-fashion?retryWrites=true&w=majority";
