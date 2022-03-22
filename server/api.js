@@ -36,7 +36,16 @@ app.get('/all', async (request, response) => {
         options.skip = (parseInt(PAGE) - 1) * options.limit;
     }
     const results = await db.find_limit(query, options);
-    response.json({ query, options, "total": results.length, results });
+    response.json({
+        "data": {
+            "meta": {
+                "currentPage": PAGE,
+                "pageSize": SIZE
+            },
+            "result": results
+        },
+        "success": true
+    })
 })
 
 app.get('/products/search', async (request, response) => {

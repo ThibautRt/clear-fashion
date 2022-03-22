@@ -44,7 +44,11 @@ const setCurrentProducts = ({ result, meta }) => {
 const fetchProducts = async (page = 1, size = 12) => {
     try {
         const response = await fetch(
-            `https://serverapi-three.vercel.app?/all/$size=${size}&page=${page}}`
+            `https://serverapi-three.vercel.app/all?size=${size}&page=${page}}`,
+            {
+                "Access-Control-Allow-Origin": "*",
+                "Cross-Origin-Resource-Policy": "cross-origin"
+            }
         );
         const body = await response.json();
 
@@ -71,9 +75,9 @@ const renderProducts = products => {
     const template = products
         .map(product => {
             return `
-      <div class="product" id=${product.uuid}>
+      <div class="product" id=${product._id}>
         <span>${product.brand}</span>
-        <a href="${product.link}" target="_blank">${product.name}</a>
+        <a href="${product.url}" target="_blank">${product.name}</a>
         <span>${product.price}</span>
       </div>
     `;
