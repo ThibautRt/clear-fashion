@@ -20,6 +20,25 @@ app.get('/', (request, response) => {
   response.send({'ack': true});
 });
 
+app.get('/all', async (request, response) => {
+    const PAGE = request.query.page
+    const SIZE = request.query.size
+
+    let query = {};
+    let options = {
+        "limit": 12,
+        "skip": 0
+    }
+    if (SIZE != undefined) {
+        options.limit = parseInt(SIZE)
+    }
+    if ((PAGE != undefined) && (PAGE != 0)){
+        options.skip = (parseInt(PAGE) - 1) * options.limit;
+    }
+    const results = await db.find_limit(query, options);
+    response.json({ query, options, "total": results.length, results });
+})
+
 app.get('/products/search', async (request, response) => {
     console.log("GET /products/search");
     console.log(request.query);

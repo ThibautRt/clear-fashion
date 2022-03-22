@@ -46,7 +46,7 @@ module.exports.find_limit = async (query, options) => {
     try {
         const db = await connect();
         const collection = db.collection('clear_fashion');
-        const result = await collection.find(query).limit(options.limit).toArray();
+        const result = await collection.find(query,options).toArray();
 
         return result;
     } catch (error) {
@@ -54,7 +54,6 @@ module.exports.find_limit = async (query, options) => {
         return null;
     }
 };
-
 
 //Find all products related to a given brand
 brand = "montlimart"

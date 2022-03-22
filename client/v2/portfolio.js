@@ -44,7 +44,7 @@ const setCurrentProducts = ({ result, meta }) => {
 const fetchProducts = async (page = 1, size = 12) => {
     try {
         const response = await fetch(
-            `https://serverapi-three.vercel.app?page=${page}&size=${size}`
+            `https://serverapi-three.vercel.app?/all/$size=${size}&page=${page}}`
         );
         const body = await response.json();
 
