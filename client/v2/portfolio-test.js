@@ -1,9 +1,6 @@
 // Invoking strict mode https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode#invoking_strict_mode
 'use strict';
 
-// `https://serverapi-three.vercel.app`
-// `https://client-five-liart.vercel.app`
-
 // current products on the page
 let currentProducts = [];
 let currentProductsToDisplay = [];
@@ -44,7 +41,7 @@ const setCurrentProducts = ({ result, meta }) => {
 const fetchProducts = async (page = 1, size = 12) => {
     try {
         const response = await fetch(
-            `https://serverapi-three.vercel.app?page=${page}&size=${size}`
+            `https://clear-fashion-api.vercel.app?page=${page}&size=${size}`
         );
         const body = await response.json();
 
