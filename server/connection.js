@@ -19,7 +19,7 @@ async function connect() {
 //connect()
 
 
-const all_products = require('./all_scraped.json');
+const all_products = require('./scraped/all_scraped.json');
 async function insert_products(clear_fashion) {
     const db = await connect();
     const collection = db.collection('clear_fashion');
@@ -27,7 +27,7 @@ async function insert_products(clear_fashion) {
         const result = collection.insertMany(brand_products);
     }
 }
-//insert_products([all_products])
+insert_products([all_products])
 
 module.exports.find_by_id = async function find_by_id(id) {
     try {

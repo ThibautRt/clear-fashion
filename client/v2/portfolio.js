@@ -116,7 +116,7 @@ const renderIndicators = pagination => {
     spanNbDisplayedProducts.innerHTML = currentProductsToDisplay.length;
     let newProductsCount = 0;
     currentProductsToDisplay.forEach(product => {
-        if ((new Date().setHours(0, 0, 0, 0) - new Date(product.released.split('-')).getTime()) > 1209600000) {
+        if ((new Date().setHours(0, 0, 0, 0) - new Date(product.insert_date.split('-')).getTime()) > 1209600000) {
             newProductsCount++;
         }
     });
@@ -127,8 +127,8 @@ const renderIndicators = pagination => {
         P50.innerHTML = temp[Math.floor(temp.length * (0.5))].price;
         P90.innerHTML = temp[Math.floor(temp.length * (0.1))].price;
         P95.innerHTML = temp[Math.floor(temp.length * (0.05))].price;
-        temp.sort((a, b) => new Date(a.released.split('-')) - new Date(b.released.split('-')));
-        spanLastDate.innerHTML = temp[temp.length - 1].released;
+        temp.sort((a, b) => new Date(a.insert_date.split('-')) - new Date(b.insert_date.split('-')));
+        spanLastDate.innerHTML = temp[temp.length - 1].insert_date;
     } else {
         P50.innerHTML = "undefined";
         P90.innerHTML = "undefined";
@@ -152,7 +152,7 @@ const filterProducts = products => {
 
 const filterByBrands = products => products.filter(product => selectBrand.value != "all" ? product.brand == selectBrand.value : true);
 
-const filterByRecent = products => products.filter(product => (new Date().setHours(0, 0, 0, 0) - new Date(product.released.split('-')).getTime()) > 1209600000);
+const filterByRecent = products => products.filter(product => (new Date().setHours(0, 0, 0, 0) - new Date(product.insert_date.split('-')).getTime()) > 1209600000);
 
 const filterByPrice = products => products.filter(product => product.price < 50);
 
@@ -175,11 +175,11 @@ const sortProducts = products => {
             break;
 
         case "date-asc":
-            products.sort((a, b) => new Date(a.released.split('-')) - new Date(b.released.split('-')));
+            products.sort((a, b) => new Date(a.insert_date.split('-')) - new Date(b.insert_date.split('-')));
             break;
 
         case "date-desc":
-            products.sort((a, b) => new Date(b.released.split('-')) - new Date(a.released.split('-')));
+            products.sort((a, b) => new Date(b.insert_date.split('-')) - new Date(a.insert_date.split('-')));
             break;
     }
 }

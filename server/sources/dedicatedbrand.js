@@ -31,7 +31,7 @@ const parse = (data, base_url, brand) => {
                 .children('img')
                 .eq(0)
                 .attr('data-src');
-            return { name, price, url, image, brand };
+            return { name, price, url, image, brand, insert_date: new Date().toISOString().split('T')[0] };
         })
         .get();
 };

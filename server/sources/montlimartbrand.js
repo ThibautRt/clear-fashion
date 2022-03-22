@@ -32,7 +32,7 @@ const parse = (data, brand) => {
                 .children('a')
                 .children("img")
                 .attr("src");
-            return { name, price, url, image, brand };
+            return { name, price, url, image, brand, insert_date: new Date().toISOString().split('T')[0] };
         })
         .get();
 };
