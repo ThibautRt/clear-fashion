@@ -7,11 +7,8 @@ let currentProductsToDisplay = [];
 let currentPagination = {};
 let favorites = []
 
-<<<<<<< HEAD
 // inititiate selectors
-=======
 // instantiate the selectors
->>>>>>> 3edf52c32a03d0dffe9e84eec0427aeceb666b92
 const selectShow = document.querySelector('#show-select');
 const selectPage = document.querySelector('#page-select');
 const sectionProducts = document.querySelector('#products');
@@ -46,7 +43,8 @@ const setCurrentProducts = ({ result, meta }) => {
 const fetchProducts = async (page = 1, size = 12) => {
     try {
         const response = await fetch(
-            `https://serverapi-three.vercel.app?page=${page}&size=${size}`
+            'https://clear-fashion-api.vercel.app?page=${page}&size=${size}'
+            // `https://serverapi-three.vercel.app`
             // 'https://client-five-liart.vercel.app'
         );
         const body = await response.json();
@@ -63,10 +61,6 @@ const fetchProducts = async (page = 1, size = 12) => {
     }
 };
 
-/**
- * Render list of products
- * @param  {Array} products
- */
 const renderProducts = products => {
     const fragment = document.createDocumentFragment();
     const div = document.createElement('div');
@@ -88,10 +82,6 @@ const renderProducts = products => {
     sectionProducts.appendChild(fragment);
 };
 
-/**
- * Render page selector
- * @param  {Object} pagination
- */
 const renderPagination = pagination => {
     const { currentPage, pageCount } = pagination;
     const options = Array.from(
@@ -103,10 +93,6 @@ const renderPagination = pagination => {
     selectPage.selectedIndex = currentPage - 1;
 };
 
-/**
- * Render page selector
- * @param  {Object} pagination
- */
 const renderIndicators = pagination => {
     const { count } = pagination;
 
@@ -146,6 +132,11 @@ const filterProducts = products => {
     if (buttonPrice.checked) {
         currentProductsToDisplay = filterByPrice(currentProductsToDisplay);
     }
+}
+
+function AddFavorite(_id) {
+    favorites.push(_id);
+    render(currentProducts, currentPagination)
 }
 
 const filterByBrands = products => products.filter(product => selectBrand.value != "all" ? product.brand == selectBrand.value : true);
@@ -197,7 +188,7 @@ const render = (products, pagination) => {
 /**
  * Select the number of products to display
  */
-<<<<<<< HEAD
+
 selectShow.addEventListener('change', event => {
     fetchProducts(currentPagination.currentPage, parseInt(event.target.value))
         .then(setCurrentProducts)
@@ -248,4 +239,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   setCurrentProducts(products);
   render(currentProducts, currentPagination);
 });
->>>>>>> 3edf52c32a03d0dffe9e84eec0427aeceb666b92
+
